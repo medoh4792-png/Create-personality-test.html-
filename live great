@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Luxury Personality Assessment</title>
+
+<style>
+
+body{
+font-family: 'Segoe UI', sans-serif;
+margin:0;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+}
+
+header{
+text-align:center;
+padding:30px;
+background:#111;
+font-size:28px;
+letter-spacing:3px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:30px;
+}
+
+.card{
+background:white;
+color:#333;
+padding:25px;
+border-radius:12px;
+margin:15px 0;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+.question{
+margin:10px 0;
+}
+
+select{
+padding:8px;
+border-radius:5px;
+}
+
+button{
+background:#d4af37;
+border:none;
+padding:15px 30px;
+font-size:18px;
+border-radius:8px;
+cursor:pointer;
+margin-top:20px;
+}
+
+button:hover{
+background:#b8962e;
+}
+
+.progress{
+height:10px;
+background:#444;
+margin:20px 0;
+border-radius:5px;
+overflow:hidden;
+}
+
+.progress-bar{
+height:10px;
+width:0%;
+background:#d4af37;
+}
+
+.result{
+margin-top:30px;
+background:#fff;
+color:#333;
+padding:25px;
+border-radius:10px;
+}
+
+.strength{
+color:green;
+}
+
+.improve{
+color:#c0392b;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>Luxury Personality Assessment</header>
+
+<div class="container">
+
+<div class="progress">
+<div class="progress-bar" id="bar"></div>
+</div>
+
+<form id="test"></form>
+
+<button onclick="calculate()">See My Results</button>
+
+<div id="result" class="result"></div>
+
+</div>
+
+<script>
+
+const questions = [
+
+["I enjoy trying new ideas","openness"],
+["I like creative thinking","openness"],
+["I enjoy exploring new cultures","openness"],
+["I enjoy learning new skills","openness"],
+["I like artistic activities","openness"],
+["I am curious about many topics","openness"],
+["I enjoy deep discussions","openness"],
+["I like innovative solutions","openness"],
+["I enjoy thinking differently","openness"],
+["I enjoy challenging traditional thinking","openness"],
+
+["I am well organized","conscientiousness"],
+["I plan my work carefully","conscientiousness"],
+["I meet deadlines","conscientiousness"],
+["I pay attention to details","conscientiousness"],
+["I set clear goals","conscientiousness"],
+["I work hard to finish tasks","conscientiousness"],
+["I manage my time well","conscientiousness"],
+["I stay disciplined","conscientiousness"],
+["I follow procedures carefully","conscientiousness"],
+["I keep things structured","conscientiousness"],
+
+["I enjoy meeting new people","extraversion"],
+["I feel energized around others","extraversion"],
+["I like group discussions","extraversion"],
+["I speak confidently","extraversion"],
+["I enjoy social events","extraversion"],
+["I lead conversations","extraversion"],
+["I enjoy teamwork","extraversion"],
+["I feel comfortable presenting","extraversion"],
+["I connect easily with others","extraversion"],
+["I enjoy lively environments","extraversion"],
+
+["I care about others' feelings","agreeableness"],
+["I help colleagues often","agreeableness"],
+["I try to avoid conflicts","agreeableness"],
+["I cooperate well","agreeableness"],
+["I show empathy","agreeableness"],
+["I support team members","agreeableness"],
+["I listen to people carefully","agreeableness"],
+["I forgive easily","agreeableness"],
+["I respect others' opinions","agreeableness"],
+["I build positive relationships","agreeableness"],
+
+["I often feel stressed","neuroticism"],
+["I worry about problems","neuroticism"],
+["I feel anxious under pressure","neuroticism"],
+["I overthink situations","neuroticism"],
+["I experience mood changes","neuroticism"],
+["I get nervous easily","neuroticism"],
+["I feel emotionally sensitive","neuroticism"],
+["I struggle to relax sometimes","neuroticism"],
+["I feel overwhelmed at times","neuroticism"],
+["I react emotionally to stress","neuroticism"]
+
+];
+
+const form=document.getElementById("test");
+
+questions.forEach((q,i)=>{
+
+form.innerHTML+=`
+<div class="card">
+<div class="question">
+<b>${i+1}. ${q[0]}</b><br>
+<select data-trait="${q[1]}">
+<option value="1">Strongly Disagree</option>
+<option value="2">Disagree</option>
+<option value="3">Neutral</option>
+<option value="4">Agree</option>
+<option value="5">Strongly Agree</option>
+</select>
+</div>
+</div>
+`;
+
+});
+
+function calculate(){
+
+let scores={
+openness:0,
+conscientiousness:0,
+extraversion:0,
+agreeableness:0,
+neuroticism:0
+};
+
+document.querySelectorAll("select").forEach(s=>{
+scores[s.dataset.trait]+=parseInt(s.value);
+});
+
+let resultHTML=`
+<h2>Your Personality Results</h2>
+
+<b>Openness:</b> ${scores.openness}/50<br>
+<b>Conscientiousness:</b> ${scores.conscientiousness}/50<br>
+<b>Extraversion:</b> ${scores.extraversion}/50<br>
+<b>Agreeableness:</b> ${scores.agreeableness}/50<br>
+<b>Neuroticism:</b> ${scores.neuroticism}/50<br><br>
+
+<h3>Strengths</h3>
+<div class="strength">
+High Openness → Creative & Innovative<br>
+High Conscientiousness → Organized & Reliable<br>
+High Extraversion → Great Communicator<br>
+High Agreeableness → Strong Team Player
+</div>
+
+<h3>Areas to Develop</h3>
+<div class="improve">
+High Neuroticism → Work on stress management<br>
+Low Extraversion → Improve communication confidence<br>
+Low Conscientiousness → Improve planning & discipline
+</div>
+`;
+
+document.getElementById("result").innerHTML=resultHTML;
+
+}
+
+</script>
+
+</body>
+</html>

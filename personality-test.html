@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DISC Personality Assessment</title>
+
+<style>
+
+body{
+font-family:"Segoe UI",sans-serif;
+background:linear-gradient(135deg,#4facfe,#00f2fe);
+margin:0;
+padding:0;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+
+.container{
+background:white;
+width:900px;
+padding:30px;
+border-radius:15px;
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+}
+
+h1{text-align:center;color:#333}
+
+.question{
+margin-top:20px;
+padding:15px;
+background:#f5f7fb;
+border-radius:10px;
+}
+
+label{
+display:block;
+padding:6px;
+cursor:pointer;
+}
+
+button{
+margin-top:25px;
+padding:12px 25px;
+border:none;
+border-radius:8px;
+background:#4facfe;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{background:#2f8cf0}
+
+.result-card{
+margin-top:25px;
+padding:20px;
+border-radius:12px;
+background:#f8fbff;
+}
+
+.bar{
+height:10px;
+background:#ddd;
+border-radius:5px;
+overflow:hidden;
+}
+
+.fill{height:10px}
+
+.d{background:#ff6b6b}
+.i{background:#feca57}
+.s{background:#1dd1a1}
+.c{background:#54a0ff}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>DISC Personality Test</h1>
+<p>Choose the answer that describes you best.</p>
+
+<div id="quiz"></div>
+
+<button onclick="showResult()">Show Result</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+let scores={D:0,I:0,S:0,C:0}
+
+let questions=[
+
+{q:"1. When facing challenges I:",a:["Take control","Talk with others","Support the team","Study the problem"],t:["D","I","S","C"]},
+{q:"2. People usually describe me as:",a:["Strong","Friendly","Calm","Precise"],t:["D","I","S","C"]},
+{q:"3. In meetings I:",a:["Push for results","Share ideas","Listen quietly","Focus on details"],t:["D","I","S","C"]},
+{q:"4. My motivation comes from:",a:["Winning","Recognition","Stability","Accuracy"],t:["D","I","S","C"]},
+{q:"5. My communication style is:",a:["Direct","Energetic","Gentle","Logical"],t:["D","I","S","C"]},
+{q:"6. My biggest strength:",a:["Leadership","Persuasion","Patience","Analysis"],t:["D","I","S","C"]},
+{q:"7. My work environment preference:",a:["Fast","Social","Stable","Structured"],t:["D","I","S","C"]},
+{q:"8. When stressed I:",a:["Take action","Talk more","Stay calm","Analyze deeply"],t:["D","I","S","C"]},
+{q:"9. I prefer tasks that are:",a:["Challenging","Interactive","Helpful","Detailed"],t:["D","I","S","C"]},
+{q:"10. My decision making style:",a:["Quick","Collaborative","Careful","Data-driven"],t:["D","I","S","C"]},
+{q:"11. I enjoy:",a:["Competition","Networking","Helping others","Problem solving"],t:["D","I","S","C"]},
+{q:"12. When leading a team I:",a:["Take charge","Inspire people","Support harmony","Plan carefully"],t:["D","I","S","C"]},
+{q:"13. I feel satisfied when:",a:["Goals achieved","People happy","Team stable","Work perfect"],t:["D","I","S","C"]},
+{q:"14. My reaction to change:",a:["Excited","Talk about it","Adapt slowly","Analyze impact"],t:["D","I","S","C"]},
+{q:"15. I prefer leaders who are:",a:["Strong","Inspiring","Supportive","Organized"],t:["D","I","S","C"]},
+{q:"16. My energy comes from:",a:["Winning","People","Peace","Logic"],t:["D","I","S","C"]},
+{q:"17. I usually focus on:",a:["Results","Relationships","Stability","Quality"],t:["D","I","S","C"]},
+{q:"18. My working style:",a:["Fast","Enthusiastic","Consistent","Careful"],t:["D","I","S","C"]},
+{q:"19. I prefer solving problems by:",a:["Taking control","Brainstorming","Team support","Research"],t:["D","I","S","C"]},
+{q:"20. Success means:",a:["Achievement","Influence","Harmony","Accuracy"],t:["D","I","S","C"]}
+
+]
+
+let quizHTML=""
+
+questions.forEach((q,i)=>{
+
+quizHTML+=`<div class="question"><b>${q.q}</b>`
+
+q.a.forEach((opt,index)=>{
+
+quizHTML+=`
+<label>
+<input type="radio" name="q${i}" onclick="scores['${q.t[index]}']++">
+${opt}
+</label>
+`
+
+})
+
+quizHTML+="</div>"
+
+})
+
+document.getElementById("quiz").innerHTML=quizHTML
+
+function showResult(){
+
+let total=questions.length
+
+let d=(scores.D/total*100).toFixed(0)
+let i=(scores.I/total*100).toFixed(0)
+let s=(scores.S/total*100).toFixed(0)
+let c=(scores.C/total*100).toFixed(0)
+
+let max=Math.max(d,i,s,c)
+
+let type=""
+
+if(max==d) type="Dominance – Leader, results oriented"
+if(max==i) type="Influence – Communicator, motivator"
+if(max==s) type="Steadiness – Supportive team player"
+if(max==c) type="Conscientiousness – Analytical thinker"
+
+document.getElementById("result").innerHTML=`
+
+<div class="result-card">
+
+<h2>Your DISC Profile</h2>
+
+<p><b>Main Personality:</b> ${type}</p>
+
+<p>D ${d}%</p>
+<div class="bar"><div class="fill d" style="width:${d}%"></div></div>
+
+<p>I ${i}%</p>
+<div class="bar"><div class="fill i" style="width:${i}%"></div></div>
+
+<p>S ${s}%</p>
+<div class="bar"><div class="fill s" style="width:${s}%"></div></div>
+
+<p>C ${c}%</p>
+<div class="bar"><div class="fill c" style="width:${c}%"></div></div>
+
+</div>
+
+`
+
+}
+
+</script>
+
+</body>
+</html>
